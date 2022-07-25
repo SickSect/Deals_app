@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using deals_app.data;
+using deals_app.Services;
 
 namespace deals_app
 {
@@ -22,7 +23,9 @@ namespace deals_app
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BindingList<todo_model> todo_date;
+        private readonly string path = $"{Environment.CurrentDirectory}\\todo_datalist.json";
+        private BindingList<todo_model> todo_date_list; //создали список
+        private File_in_out io_serv;
         public MainWindow()
         {
             InitializeComponent();
@@ -30,13 +33,40 @@ namespace deals_app
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            todo_date = new BindingList<todo_model>()
-            {
-                new todo_model(){event_info = "this is the event"},
-                new todo_model(){event_info = "second event here"}
-            };
+            io_serv = new File_in_out(path);
 
-            dgTodoList.ItemsSource = todo_date;
+            dgTodoList.ItemsSource = todo_date_list;
+            todo_date_list.ListChanged += todo_date_list_Changed; // при обновлении списка вызывается событие
+            //которое необходимо нам для записи
+        }
+
+        private void todo_date_list_Changed(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType == ListChangedType.ItemDeleted || ListChangedType.ItemDeleted || ListChangedType.ItemChanged)
+            {
+
+            }
+            switch (e.ListChangedType)
+            {
+                case ListChangedType.Reset:
+                    break;
+                case ListChangedType.ItemAdded:
+                    break;
+                case ListChangedType.ItemDeleted:
+                    break;
+                case ListChangedType.ItemMoved:
+                    break;
+                case ListChangedType.ItemChanged:
+                    break;
+                case ListChangedType.PropertyDescriptorAdded:
+                    break;
+                case ListChangedType.PropertyDescriptorDeleted:
+                    break;
+                case ListChangedType.PropertyDescriptorChanged:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
