@@ -11,7 +11,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path = Creation_date}"  Header="Creation Date" Width="180"/>
                 <DataGridCheckBoxColumn Binding="{Binding Path = IsDone, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Header="Done" Width="80"/>
-                <DataGridTextColumn Binding="{Binding Path = event_info}" IsReadOnly="False" Header="Event" Width="250"/>
+                <DataGridTextColumn Binding="{Binding Path = event_info}" IsReadOnly="False" Header="Event" Width="500"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
