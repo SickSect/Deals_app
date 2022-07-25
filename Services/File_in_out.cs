@@ -14,11 +14,11 @@ namespace deals_app.Services
     {
         private readonly string path;
 
-        public File_in_out(string path)
+        public File_in_out(string _path)
         {
-            this.path = path;
+            path = _path;
         }
-        private BindingList<todo_model> load_date()
+        public BindingList<todo_model> Load_date()
         {
             var file_exists = File.Exists(path);
             if (!file_exists)
@@ -29,11 +29,13 @@ namespace deals_app.Services
             using (var reader = new StreamReader(path))
             {
                 var fileText = reader.ReadToEnd();
+                if (fileText == "")
+                    return new BindingList<todo_model>();
                 return JsonConvert.DeserializeObject<BindingList<todo_model>>(fileText);
             }
         }
 
-        public void Save_date(BindingList<todo_model> save)
+        public void Save_date(object save)
         {
             using (StreamWriter write = File.CreateText(path))
             {

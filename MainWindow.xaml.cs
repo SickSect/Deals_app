@@ -26,6 +26,7 @@ namespace deals_app
         private readonly string path = $"{Environment.CurrentDirectory}\\todo_datalist.json";
         private BindingList<todo_model> todo_date_list; //создали список
         private File_in_out io_serv;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,39 +35,36 @@ namespace deals_app
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             io_serv = new File_in_out(path);
-
+            try
+            {
+                todo_date_list = io_serv.Load_date();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
             dgTodoList.ItemsSource = todo_date_list;
-            todo_date_list.ListChanged += todo_date_list_Changed; // при обновлении списка вызывается событие
+            todo_date_list.ListChanged += todo_date_list_Changed;
+            // при обновлении списка вызывается событие
             //которое необходимо нам для записи
         }
 
         private void todo_date_list_Changed(object sender, ListChangedEventArgs e)
         {
-            if (e.ListChangedType == ListChangedType.ItemDeleted || ListChangedType.ItemDeleted || ListChangedType.ItemChanged)
+            if (e.ListChangedType == ListChangedType.ItemDeleted || e.ListChangedType == ListChangedType.ItemDeleted || e.ListChangedType == ListChangedType.ItemChanged)
             {
-
+                try
+                {
+                    io_serv.Save_date(sender);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Close();
+                }
             }
-            switch (e.ListChangedType)
-            {
-                case ListChangedType.Reset:
-                    break;
-                case ListChangedType.ItemAdded:
-                    break;
-                case ListChangedType.ItemDeleted:
-                    break;
-                case ListChangedType.ItemMoved:
-                    break;
-                case ListChangedType.ItemChanged:
-                    break;
-                case ListChangedType.PropertyDescriptorAdded:
-                    break;
-                case ListChangedType.PropertyDescriptorDeleted:
-                    break;
-                case ListChangedType.PropertyDescriptorChanged:
-                    break;
-                default:
-                    break;
-            }
+            
         }
     }
 }
